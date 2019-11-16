@@ -15,22 +15,34 @@ void printResults(String waybackResult, String googleCacheResult, String bingCac
   print('\n');
   // Wayback Machine
   if (waybackResult == '') {
-    print('${Icon.HEAVY_BALLOT_X} Wayback Machine');
+    print('Wayback Machine: ${Icon.HEAVY_BALLOT_X}');
   } else {
-    print('${Icon.HEAVY_CHECKMARK} Wayback Machine: ' + waybackResult);
+    Console.setBold(true);
+    print('Wayback Machine:');
+    Console.setBold(false);
+    print(waybackResult);
   }
+  print('');
   // Google Cache
   if (googleCacheResult == '') {
-    print('${Icon.HEAVY_BALLOT_X} Google Cache');
+    print('Google Cache: ${Icon.HEAVY_BALLOT_X}');
   } else {
-    print('${Icon.HEAVY_CHECKMARK} Google Cache: ' + googleCacheResult);
+    Console.setBold(true);
+    print('Google Cache:');
+    Console.setBold(false);
+    print(googleCacheResult);
   }
+  print('');
   // Bing Cache
   if (bingCacheResult == '') {
-    print('${Icon.HEAVY_BALLOT_X} Bing Cache');
+    print('Bing Cache: ${Icon.HEAVY_BALLOT_X}');
   } else {
-    print('${Icon.HEAVY_CHECKMARK} Bing Cache: ' + bingCacheResult);
+    Console.setBold(true);
+    print('Bing Cache:');
+    Console.setBold(false);
+    print(bingCacheResult);
   }
+  print('');
 }
 
 Future<String> checkWayback(String address) async {
@@ -97,6 +109,4 @@ void loadCache(String address) async {
   // Print results
   Console.setBold(false);
   printResults(waybackResult, googleCacheResult, bingCacheResult);
-  // Final line space before exit
-  print('');
 }
