@@ -1,0 +1,11 @@
+// Copied from: https://dart.dev/guides/libraries/private-files
+.dart_tool/
+.packages
+build/
+pubspec.lock
+doc/api/
+*.iml
+*.ipr
+*.iws
+.idea/
+.DS_Store
