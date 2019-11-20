@@ -9,3 +9,5 @@ doc/api/
 *.iws
 .idea/
 .DS_Store
+// Compiled version
+rewind
