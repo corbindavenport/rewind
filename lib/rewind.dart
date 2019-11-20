@@ -1,17 +1,21 @@
 import 'package:console/console.dart';
 import 'package:http/http.dart' as http;
 import 'package:html/parser.dart';
-import 'package:html/dom.dart';
 import 'dart:convert' as convert;
 
 void printHelp() {
   Console.setBold(true);
-  print('Rewind version 1.0\n------------------------');
+  print('Rewind version 1.1');
   Console.setBold(false);
-  print('Enter a URL after the rewind command to view cached versions.');
+  print('Usage: rewind [arguments] <url>\n');
+  Console.setBold(true);
+  print('Optional arguments:');
+  Console.setBold(false);
+  print('-s     Output cached links as non-formatted list (helpful for scripting)');
+  print('');
 }
 
-void printResults(String waybackResult, String googleCacheResult, String bingCacheResult) {
+void printFormattedResults(String waybackResult, String googleCacheResult, String bingCacheResult) {
   print('\n');
   // Wayback Machine
   if (waybackResult == '') {
@@ -93,20 +97,42 @@ Future<String> checkBingCache(String address) async {
   }
 }
 
-void loadCache(String address) async {
-  Console.setBold(true);
-  var bar = ProgressBar(complete: 4);
-  bar.update(1);
-  // Wayback Machine
+void printSimpleResults(address) async {
   var waybackResult = await checkWayback(address);
-  bar.update(2);
-  // Google Machine
   var googleCacheResult = await checkGoogleCache(address);
-  bar.update(3);
-  // Bing Cache
   var bingCacheResult = await checkBingCache(address);
-  bar.update(4);
-  // Print results
-  Console.setBold(false);
-  printResults(waybackResult, googleCacheResult, bingCacheResult);
+  // Wayback Machine
+  if (waybackResult != '') {
+    print(waybackResult);
+  }
+  // Google Cache
+  if (googleCacheResult != '') {
+    print(googleCacheResult);
+  }
+  // Bing Cache
+  if (bingCacheResult != '') {
+    print(bingCacheResult);
+  }
+}
+
+void loadCache(String address, args) async {
+  if (args['simple'] as bool) {
+    printSimpleResults(address);
+  } else {
+    Console.setBold(true);
+    var bar = ProgressBar(complete: 4);
+    bar.update(1);
+    // Wayback Machine
+    var waybackResult = await checkWayback(address);
+    bar.update(2);
+    // Google Machine
+    var googleCacheResult = await checkGoogleCache(address);
+    bar.update(3);
+    // Bing Cache
+    var bingCacheResult = await checkBingCache(address);
+    bar.update(4);
+    // Print results
+    Console.setBold(false);
+    printFormattedResults(waybackResult, googleCacheResult, bingCacheResult);
+  }
 }

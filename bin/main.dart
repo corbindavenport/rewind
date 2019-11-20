@@ -1,5 +1,5 @@
 import 'dart:io';
-
+import 'package:args/args.dart';
 import 'package:rewind/rewind.dart' as rewind;
 import 'package:console/console.dart';
 
@@ -15,7 +15,11 @@ main(List<String> arguments) {
     // Print help
     rewind.printHelp();
   } else {
-    // Look for pages
-    rewind.loadCache(arguments[0]);
+    // Parse arguments
+    var parser = new ArgParser();
+    parser.addFlag('simple', abbr: 's');
+    var args = parser.parse(arguments);
+    // Find cached pages and print them
+    rewind.loadCache(args.rest[0], args);
   }
 }
